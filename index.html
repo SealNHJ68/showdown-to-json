@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Pokemon Showdown to JSON</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <img src="files\header.png" class="image-header">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+
+      <div class="col-12">
+        Instrucciones para usar la aplicación:
+        <ul>
+          <li>Crea tu equipo en formato showdown (puede ser un Team, Box o todo un Backup), si no lo has creado, crealo <a
+              href="https://play.pokemonshowdown.com/teambuilder" target="_blank">aquí</a></li>
+          <li>Pega tu formato en el primer recuadro y da clic en el botón "Cargar equipo."</li>
+          <li>Copia y usa a tu gusto el formato JSON generado!</li>
+          <li class="nota">Nota: Trata de usar formato válido, esta aplicación no válida si el formato es correcto,
+            usar un formato alterado puede mostrar información errónea.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="text-box-formato">Pega aquí tu equipo en formato:</label>
+          <div class="form-group">
+            <textarea class="form-control text-area" id="text-box-formato-showdown" rows="15"></textarea>
+          </div>
+          <br>
+          <button type="button" class="btn btn-primary" onclick="enviarFormatoShDw()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-upload"
+              viewBox="0 0 16 16">
+              <path
+                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z">
+              </path>
+              <path
+                d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z">
+              </path>
+            </svg>
+            Cargar equipo</button>
+          <button type="button" class="btn btn-success" onclick="limpiar()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3"
+              viewBox="0 0 16 16">
+              <path
+                d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+            </svg>
+            Limpiar </button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="text-box-formato">Resultado:</label>
+          <textarea class="form-control text-area" id="text-box-formato-json" disabled
+            placeholder="Aqui se muestra tu formato JSON" rows="15"></textarea>
+        </div>
+        <br>
+        <button type="button" class="btn btn-primary" onclick="copiarAportapapeles()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard"
+            viewBox="0 0 16 16">
+            <path
+              d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z">
+            </path>
+            <path
+              d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z">
+            </path>
+          </svg>
+          Copiar
+        </button>
+        <button type="button" class="btn btn-success" onclick="descargarArchivo()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+            <path
+              d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z">
+            </path>
+            <path
+              d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z">
+            </path>
+          </svg> Descargar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center">
+
+      <div class="col-md-6">
+      </div>
+
+      <div class="col-md-6">
+        <div>
+        </div>
+        <div>
+
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Start script -->
+  <script>
+    function enviarFormatoShDw() {
+      var textFromArea = document.getElementById("text-box-formato-showdown").value;
+      const test = textFromArea.split(/\r?\n|\r|\n/g);
+      let pokemonObjects = [];
+      for (var x = 0; x < test.length; x++) {
+        if (test[x] === "" || test[x].includes("===")) {
+          test[x] = "******";
+        }
+      }
+
+      test.push("******")
+
+      for (var x = 0; x < test.length; x++) {
+
+        var apodo = "";
+        var especie = "";
+        var genero = "";
+        var objeto = "";
+        var habilidad = "";
+        var variocolor = "";
+        var poderOculto = "";
+        var teraTipo = "";
+        var ev = "";
+        var naturaleza = "";
+        var iv = "";
+        const moveList = [];
+        const ivList = [];
+        var haveSpecificIvs = false;
+
+        if (test[x] == "******") {
+          //salta al siguiente miembro
+        } else {
+
+          //empieza a grabar
+          var test2 = (test[x].trim());  //Retiro espacios laterales
+          //Validamos objeto
+          if (test2.includes("@")) {
+            const splitobjeto = test2.split("@");
+            if ((splitobjeto[splitobjeto.length - 1].includes("(") || splitobjeto[splitobjeto.length - 1].includes(")")) && (splitobjeto.length == 2)) {
+            } else {
+              //objeto
+              objeto = (splitobjeto[splitobjeto.length - 1]).trim();
+              test2 = (test2.replace("@" + " " + objeto, "")).trim();
+            }
+          } else {
+            //console.log("Sin objeto especificado")
+          }
+
+          //Validamos genero
+          if (test2.includes("(M)") || test2.includes("(F)")) {
+            //Tiene genero
+            splitGender = test2.split(" ");
+            if ((splitGender[splitGender.length - 1]) === "(M)" || (splitGender[splitGender.length - 1]) === "(F)") {
+              genero = (splitGender[splitGender.length - 1]);
+              test2 = (test2.replace("" + genero, "")).trim();
+            } else {
+              //console.log("No es un genero, es un nickname");
+            }
+          } else {
+            //console.log("Sin Genero Especificado")
+          }
+
+          //Validamos especie y apodo
+          var splitName = test2.split("(");
+          if (splitName.length == 1) {
+            especie = splitName[0];
+          } else {
+            //console.log("Tiene apodo")
+            especie = (splitName[splitName.length - 1]).replace(")", "");
+            test2 = (test2.replace("(" + especie + ")", "")).trim();
+            apodo = test2;
+          }
+          //
+          var y = x + 1;
+          if (test[y] == "******") {
+            //console.log("Fin de la captura");
+          } else {
+            while (test[y] != "******") {
+              if (test[y].includes("Ability: ")) {
+                var splitDetail = test[y].split(":");
+                habilidad = (splitDetail[1]).trim();
+              } if (test[y].includes("Shiny: ")) {
+                var splitDetail = test[y].split(":");
+                variocolor = (splitDetail[1]).trim();
+              } if (test[y].includes("Hidden Power: ")) {
+                var splitDetail = test[y].split(":");
+                poderOculto = (splitDetail[1]).trim();
+              } if (test[y].includes("Tera Type: ")) {
+                var splitDetail = test[y].split(":");
+                teraTipo = (splitDetail[1]).trim();
+              } if (test[y].includes("EVs: ")) {
+                var splitDetail = test[y].split(":");
+                ev = (splitDetail[1]).trim();
+              } if (test[y].includes(" Nature")) {
+                var splitDetail = ((test[y]).trim()).split(" ");
+                if (splitDetail.length == 2) {
+                  naturaleza = (splitDetail[0]).trim();
+                }
+              } if (test[y].includes("IVs:")) {
+
+                var splitDetail = ((test[y]).trim()).split(":");
+                var splitByIv = splitDetail[1].split("/");
+                console.log(splitByIv);
+                for (var t = 0; t < 6; t++) {
+                  var textSwitchIv = "";
+                  var valueIv = 31;
+                  //-
+                  switch (t) {
+                    case 0:
+                      // code block ps
+                      textSwitchIv = "HP";
+                      break;
+                    case 1:
+                      // code block at
+                      textSwitchIv = "Atk";
+                      break;
+                    case 2:
+                      // code block df
+                      textSwitchIv = "Def";
+                      break;
+                    case 3:
+                      // code block ae
+                      textSwitchIv = "SpA";
+                      break;
+                    case 4:
+                      // code block de
+                      textSwitchIv = "SpD";
+                      break;
+                    case 5:
+                      // code block ve
+                      textSwitchIv = "Spe";
+                      break;
+                    default:
+                    // code block
+                  }
+                  //-
+                  for (var u = 0; u < splitByIv.length; u++) {
+                    //-if
+                    if (splitByIv[u].includes(textSwitchIv)) {
+                      var splitedIv = (splitByIv[u].trim()).split(" ");
+                      valueIv = splitedIv[0];
+                      console.log("Have: " + splitedIv[0] + " - " + splitedIv[1]);
+                      ivList.push(valueIv + " " + splitedIv[1]);
+                    }
+                  }
+                  //hacer push
+                  if (valueIv == 31) {
+                    console.log(textSwitchIv + " No es 31, le hago push");
+                    ivList.push(valueIv + " " + textSwitchIv);
+                  }
+
+                }
+                //----
+                haveSpecificIvs = true;
+              }
+
+              var checkMoves = test[y];
+              if (checkMoves[0] === "-") {
+                var moveConc = "";
+                var splitDetail = ((test[y]).trim()).split("-");
+                if (splitDetail.length > 2) {
+                  for (var q = 1; q < splitDetail.length; q++) {
+                    moveConc = moveConc + splitDetail[q];
+                    if ((q + 1) < splitDetail.length) {
+                      moveConc = moveConc + "-";
+                    } else {
+                      //aun hay palabras en el movimiento
+                    }
+                  }
+                  moveList.push(moveConc)
+                } else {
+                  moveList.push(splitDetail[1])
+                }
+              }
+              y++;
+              //console.log("Me rompi en la posicion: " + y + "-" + test[y]);
+              x = y;
+            }//fin del while
+
+            if (haveSpecificIvs == true) {
+              //los ivs ya se guardaron.
+            } else {
+              ivList.push("31 HP");
+              ivList.push("31 Atk");
+              ivList.push("31 Def");
+              ivList.push("31 SpA");
+              ivList.push("31 SpD");
+              ivList.push("31 Spe");
+            }
+
+          }
+          //aqui se debe llenar el json
+          const pokemon = {
+            nickname: apodo,
+            specie: especie,
+            gender: genero,
+            item: objeto,
+            ability: habilidad,
+            shiny: variocolor,
+            hiddenPower: poderOculto,
+            teraType: teraTipo,
+            evs: ev,
+            nature: naturaleza,
+            ivList,
+            moveList
+          };
+
+          pokemonObjects.push(pokemon);
+          // fin llenado json
+
+        }
+
+      }
+      // se transforma en json.
+      let resultado = JSON.stringify(pokemonObjects, undefined, 4);
+      document.getElementById("text-box-formato-json").innerHTML = resultado;
+
+    }//funcion principal
+
+    function limpiar() {
+      document.getElementById("text-box-formato-showdown").value = "";
+      document.getElementById("text-box-formato-json").innerHTML = "";
+    }
+
+    function copiarAportapapeles() {
+
+      var copyText = document.getElementById("text-box-formato-json");
+
+      // Select the text field
+      copyText.select();
+      copyText.setSelectionRange(0, 99999); // For mobile devices
+
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(copyText.value);
+      alert("copiado");
+    }
+
+    const descargarArchivo = () => {
+      var validateJson = document.getElementById("text-box-formato-json").value;
+      if (validateJson.length < 1) {
+        alert("No hay datos.");
+      } else {
+
+        const link = document.createElement("a");
+        const content = document.getElementById("text-box-formato-json").value;
+        const file = new Blob([content], { type: 'text/plain' });
+        link.href = URL.createObjectURL(file);
+        link.download = "TeamShowdownToJson.txt";
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }
+    };
+
+  </script>
+</body>
+
+</html>

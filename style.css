@@ -1,0 +1,27 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+body {
+  background-color: #dbf8ff !important;
+}
+.nota{
+  color: #c60101;
+}
+
+.btn-copy-clip{
+  position: relative;
+  float: right;
+  bottom: 5%;
+}
+
+.text-area{
+  resize: none;
+}
+
+.image-header{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
